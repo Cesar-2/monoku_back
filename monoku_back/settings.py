@@ -15,7 +15,7 @@ import dj_database_url
 import django_heroku
 from dotenv import load_dotenv, find_dotenv
 from pathlib import Path
-load_dotenv(find_dotenv(filename="../../.env"))
+load_dotenv(find_dotenv(filename="../.env"))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -99,7 +99,7 @@ if "DATABASE_URL" not in os.environ:
     ] = " "
 
 DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES['default'] = dj_database_url.config(conn_max_age=500)
 
 
 # Password validation
@@ -141,9 +141,17 @@ LOCALE_PATHS = (
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
+STATIC_TMP = os.path.join(BASE_DIR, "static")
 
+os.makedirs(STATIC_ROOT, exist_ok=True)
+os.makedirs(STATIC_TMP, exist_ok=True)
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+django_heroku.settings(locals())
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
