@@ -1,0 +1,5 @@
+from .artista_serializer import ArtistaSerializer
+from .bandas_similares_serializer import BandasSimilaresSerializer
+from .cancion_serializer import CancionSerializer
+from .instrumentos_serializer import InstrumentoSerializer
+from .label_serializer import LabelSerializer
